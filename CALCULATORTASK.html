@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h1{
+        text-align: center;
+        color: cyan;
+        padding: 250px;
+    }
+    body{
+        background-color: lavender;
+    }
+</style>
+<body>
+    <h1>CALCULATOR</h1>
+</body>
+<script>
+
+
+    let calculationHistory =[];
+   
+
+    // Define Variables and Functions:
+function performOperation(operation, num1, num2) {
+    if (operation === "add") return num1 + num2;
+    else if (operation === "subtract") return num1 - num2;
+    else if (operation === "multiply") return num1 * num2;
+    else if (operation === "divide") return num2 !== 0 ? num1 / num2 : "Cannot divide zero";
+    else return "Invalid operation";
+}
+
+// Input Handling:
+function getUserInput() {
+    let operation = prompt("Enter operation (add, subtract, multiply, divide):").toLowerCase();
+    let num1 = parseFloat(prompt("Enter first number:"));
+    let num2 = parseFloat(prompt("Enter second number:"));
+
+    if (isNaN(num1) || isNaN(num2)) {
+        alert("Invalid number");
+        return null;
+    }
+
+    if (!["add", "subtract", "multiply", "divide"].includes(operation)) {
+        alert("Invalid operation");
+        return null;
+    }
+
+    return { operation, num1, num2 };
+}
+
+// Display history
+function displayHistory() {
+    if (calculationHistory.length === 0) {
+        alert("No calculations");
+        return;
+    }
+
+    let history = "Calculation History:\n";
+    calculationHistory.forEach((entry, index) => {
+        history += `${index + 1}. ${entry}\n`;
+    });
+
+    alert(history);
+}
+
+// Perform Calculations:
+function startCal() {
+    while (true) {
+        let userInput = getUserInput();
+        if (!userInput) continue;
+
+        let { operation, num1, num2 } = userInput;
+        let result = performOperation(operation, num1, num2);
+        
+        let calculation = `${num1} ${operation === "add" ? "+" :
+                                    operation === "subtract" ? "-" :
+                                    operation === "multiply" ? "*" :
+                                    "/"} ${num2} = ${result}`;
+
+        alert(calculation);
+        calculationHistory.push(calculation);
+
+        let next = prompt("Enter '1' to perform Another calculation, '2' For History, or 'exit' to back");
+        if (next === "2") displayHistory();
+        else if (next.toLowerCase() === "exit") break;
+    }
+}
+
+startCal();
+
+</script>
+</html>
+
+
